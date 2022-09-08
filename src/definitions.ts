@@ -23,6 +23,7 @@ export interface IsAvailableOptions {
 export interface AvailableResult {
   isAvailable: boolean;
   biometryType: BiometryType;
+  deviceCredEnrolled: boolean;
   errorCode?: number;
 }
 
@@ -33,6 +34,7 @@ export interface BiometricOptions {
   description?: string;
   negativeButtonText?: string;
   useFallback?: boolean;
+  disableConfirmationRequired?: boolean;
   /**
    * Only for Android.
    * Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5.

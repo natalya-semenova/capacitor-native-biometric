@@ -47,6 +47,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.app.KeyguardManager;
+import static android.content.Context.KEYGUARD_SERVICE;
 
 @CapacitorPlugin(name = "NativeBiometric")
 public class NativeBiometric extends Plugin {
@@ -103,6 +105,16 @@ public class NativeBiometric extends Plugin {
         return type;
     }
 
+    private boolean checkDeviceCredsEnrolled() {
+        KeyguardManager km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
+
+        if (! km.isKeyguardSecure()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @PluginMethod()
     public void isAvailable(PluginCall call) {
         JSObject ret = new JSObject();
@@ -121,38 +133,51 @@ public class NativeBiometric extends Plugin {
         }
 
         ret.put("biometryType", getAvailableFeature());
+        ret.put("deviceCredEnrolled", checkDeviceCredsEnrolled());
         call.resolve(ret);
     }
 
     @PluginMethod()
     public void verifyIdentity(final PluginCall call) {
-            Intent intent = new Intent(getContext(), AuthActivity.class);
+        Intent intent = new Intent(getContext(), AuthActivity.class);
 
-            intent.putExtra("title", call.getString("title", "Authenticate"));
+        intent.putExtra("title", call.getString("title", "Authenticate"));
 
-            if(call.hasOption("subtitle"))
-                intent.putExtra("subtitle", call.getString("subtitle"));
+        if(call.hasOption("subtitle"))
+            intent.putExtra("subtitle", call.getString("subtitle"));
 
-            if(call.hasOption("description"))
-                intent.putExtra("description", call.getString("description"));
+        if(call.hasOption("description"))
+            intent.putExtra("description", call.getString("description"));
 
+        if(call.hasOption("disableConfirmationRequired"))
+            intent.putExtra("disableConfirmationRequired", call.getString("disableConfirmationRequired"));
+
+        if(call.hasOption("isDeviceCredentialAllowed")) {
+
+            Boolean isDeviceCredentialAllowed = call.getBoolean("isDeviceCredentialAllowed");
+
+            if (isDeviceCredentialAllowed == true) {
+                intent.putExtra("isDeviceCredentialAllowed", true);
+            }
+        } else {
             if(call.hasOption("negativeButtonText"))
                 intent.putExtra("negativeButtonText", call.getString("negativeButtonText"));
+        }
 
-            if(call.hasOption("maxAttempts"))
-                intent.putExtra("maxAttempts", call.getInt("maxAttempts"));
+        if(call.hasOption("maxAttempts"))
+            intent.putExtra("maxAttempts", call.getInt("maxAttempts"));
 
-            boolean useFallback = call.getBoolean("useFallback", false);
+        boolean useFallback = call.getBoolean("useFallback", false);
 
-            if (useFallback && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                KeyguardManager keyguardManager = (KeyguardManager) getActivity().getSystemService(Context.KEYGUARD_SERVICE);
-                useFallback = keyguardManager.isDeviceSecure();
-            }
+        if (useFallback && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            KeyguardManager keyguardManager = (KeyguardManager) getActivity().getSystemService(Context.KEYGUARD_SERVICE);
+            useFallback = keyguardManager.isDeviceSecure();
+        }
 
-            intent.putExtra("useFallback", useFallback);
+        intent.putExtra("useFallback", useFallback);
 
-            bridge.saveCall(call);
-            startActivityForResult(call, intent, "verifyResult");
+        bridge.saveCall(call);
+        startActivityForResult(call, intent, "verifyResult");
     }
 
     @PluginMethod()

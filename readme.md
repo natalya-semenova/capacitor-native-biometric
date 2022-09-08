@@ -67,11 +67,12 @@ NativeBiometric.deleteCredentials({
 
 ### AvailableResult
 
-| Properties     | Default | Type           | Description                                              |
-| -------------- | ------- | -------------- | -------------------------------------------------------- |
-| `isAvailable`  |         | `boolean`      | Specifies if the devices has biometric enrollment        |
-| `biometryType` |         | `BiometryType` | Specifies the available biometric hardware on the device |
-| `errorCode?`   |         | `number`       | Error code returned by the native API                    |
+| Properties           | Default | Type           | Description                                                                  |
+| -------------------- | ------- | -------------- | ---------------------------------------------------------------------------- |
+| `isAvailable`        |         | `boolean`      | Specifies if the devices has biometric enrollment                            |
+| `biometryType`       |         | `BiometryType` | Specifies the available biometric hardware on the device                     |
+| `deviceCredEnrolled` |         | `boolean`      | Specifies if a PIN/pattern/password on Android or passcode on ios is enabled |
+| `errorCode?`         |         | `number`       | Error code returned by the native API                                        |
 
 ### BiometryType - enum
 
@@ -87,15 +88,17 @@ NativeBiometric.deleteCredentials({
 
 ### BiometricOptions
 
-| Properties            | Default                        | Type      | Description                                                                                               |
-| --------------------- | ------------------------------ | --------- | --------------------------------------------------------------------------------------------------------- |
-| `reason?`             | "For biometric authentication" | `string`  | Reason for requesting authentication in iOS. Displays in the authentication dialog presented to the user. |
-| `title?`              | "Authenticate"                 | `string`  | Title for the Android prompt                                                                              |
-| `subtitle?`           |                                | `string`  | Subtitle for the Android prompt                                                                           |
-| `description?`        |                                | `string`  | Description for the Android prompt                                                                        |
-| `negativeButtonText?` | "Cancel"                       | `string`  | Text for the negative button displayed on Android                                                         |
-| `maxAttempts?`        | 1                              | `number`  | Limit the number of attempts a user can perform biometric authentication. (Android - Max 5)               |
-| `useFallback?`        | `false`                        | `boolean` | Specifies if the device should fallback to using passcode authentication.(Android - Max 5)                |
+| Properties                     | Default                        | Type      | Description                                                                                               |
+| ------------------------------ | ------------------------------ | --------- | --------------------------------------------------------------------------------------------------------- |
+| `reason?`                      | "For biometric authentication" | `string`  | Reason for requesting authentication in iOS. Displays in the authentication dialog presented to the user. |
+| `title?`                       | "Authenticate"                 | `string`  | Title for the Android prompt                                                                              |
+| `subtitle?`                    |                                | `string`  | Subtitle for the Android prompt                                                                           |
+| `description?`                 |                                | `string`  | Description for the Android prompt                                                                        |
+| `negativeButtonText?`          | "Cancel"                       | `string`  | Text for the negative button displayed on Android                                                         |
+| `maxAttempts?`                 | 1                              | `number`  | Limit the number of attempts a user can perform biometric authentication. (Android - Max 5)               |
+| `useFallback?`                 | `false`                        | `boolean` | Specifies if the device should fallback to using passcode authentication.(Android - Max 5)                |
+| `disableConfirmationRequired?` | `false`                        | `boolean` | Sets a system hint for whether to disable explicit user confirmation after a passive biometric            |
+|                                |                                |           |    (e.g. iris or face) has been recognized but before                                                     |
 
 ### VerifyIdentityErrors
 
@@ -154,7 +157,7 @@ This value is just the reason for using FaceID. You can add something like the f
 To use android's BiometricPrompt api you must add the following permission to your AndroidManifest.xml:
 
 ```xml
-<uses-permission android:name="android.permission.USE_BIOMETRIC">
+<uses-permission android:name="android.permission.USE_BIOMETRIC" />
 ```
 
 And register the plugin by adding it to you MainActivity's onCreate (Not needed for Capacitor 3):

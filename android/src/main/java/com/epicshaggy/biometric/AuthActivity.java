@@ -26,6 +26,27 @@ public class AuthActivity extends AppCompatActivity {
     private int maxAttempts;
     private int counter = 0;
 
+    private BiometricPrompt.PromptInfo createPromptInfo() {
+        BiometricPrompt.PromptInfo.Builder promptInfo = new BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getIntent().hasExtra("title") ? getIntent().getStringExtra("title") : "Authenticate")
+            .setSubtitle(getIntent().hasExtra("subtitle") ? getIntent().getStringExtra("subtitle") : null)
+            .setDescription(getIntent().hasExtra("description") ? getIntent().getStringExtra("description") : null);
+
+        if(getIntent().hasExtra("disableConfirmationRequired")) {
+            promptInfo.setConfirmationRequired(false);
+        }
+
+        boolean useFallback = getIntent().getBooleanExtra("useFallback", false);
+
+        if(useFallback) {
+            promptInfo.setDeviceCredentialAllowed(true);
+        } else {
+            promptInfo.setNegativeButtonText(getIntent().hasExtra("negativeButtonText") ? getIntent().getStringExtra("negativeButtonText") : "Cancel");
+        }
+
+        return promptInfo.build();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +65,6 @@ public class AuthActivity extends AppCompatActivity {
             };
         }
 
-        BiometricPrompt.PromptInfo.Builder builder = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getIntent().hasExtra("title") ? getIntent().getStringExtra("title") : "Authenticate")
-                .setSubtitle(getIntent().hasExtra("subtitle") ? getIntent().getStringExtra("subtitle") : null)
-                .setDescription(getIntent().hasExtra("description") ? getIntent().getStringExtra("description") : null);
-
-        boolean useFallback = getIntent().getBooleanExtra("useFallback", false);
-
-        if(useFallback)
-        {
-            builder.setDeviceCredentialAllowed(true);
-        }
-        else
-        {
-            builder.setNegativeButtonText(getIntent().hasExtra("negativeButtonText") ? getIntent().getStringExtra("negativeButtonText") : "Cancel");
-        }
-
-        BiometricPrompt.PromptInfo promptInfo = builder.build();
 
         BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
@@ -85,7 +89,7 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
-        biometricPrompt.authenticate(promptInfo);
+        biometricPrompt.authenticate(createPromptInfo());
 
     }
 
@@ -105,7 +109,7 @@ public class AuthActivity extends AppCompatActivity {
             intent.putExtra("errorCode",String.valueOf(errorCode));
         }else{
             intent.putExtra("result", result);
-        }      
+        }
         setResult(RESULT_OK, intent);
         finish();
     }
