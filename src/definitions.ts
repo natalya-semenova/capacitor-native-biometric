@@ -24,6 +24,7 @@ export interface AvailableResult {
   isAvailable: boolean;
   biometryType: BiometryType;
   errorCode?: number;
+  isDeviceSecure: boolean;
 }
 
 export interface BiometricOptions {
@@ -39,6 +40,10 @@ export interface BiometricOptions {
    * @default 1
    */
   maxAttempts?: number;
+  /**
+   * Only for Android.
+   */
+  disableConfirmationRequired?: boolean;
 }
 
 export interface GetCredentialOptions {
