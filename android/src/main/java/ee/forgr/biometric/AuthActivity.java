@@ -1,4 +1,4 @@
-package com.epicshaggy.biometric;
+package ee.forgr.biometric;
 
 import android.content.Intent;
 import android.os.Build;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.biometric.BiometricPrompt;
-import com.epicshaggy.biometric.capacitornativebiometric.R;
+import ee.forgr.biometric.capacitornativebiometric.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.concurrent.Executor;

@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-native-biometric",
+  "name": "@capgo/capacitor-native-biometric",
   "version": "5.0.0",
   "description": "This plugin gives access to the native biometric apis for android and iOS",
   "main": "dist/esm/index.js",
@@ -50,7 +50,7 @@
     "dist/",
     "ios/",
     "android/",
-    "CapacitorNativeBiometric.podspec"
+    "CapgoCapacitorNativeBiometric.podspec"
   ],
   "keywords": [
     "capacitor",
@@ -72,9 +72,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/epicshaggy/capacitor-native-biometric"
+    "url": "https://github.com/Cap-go/capacitor-native-biometric"
   },
   "bugs": {
-    "url": "https://github.com/epicshaggy/capacitor-native-biometric/issues"
+    "url": "https://github.com/Cap-go/capacitor-native-biometric/issues"
   }
 }
