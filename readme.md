@@ -46,98 +46,195 @@ NativeBiometric.deleteCredentials({
   server: "www.example.com",
 }).then();
 ```
+<docgen-index>
 
-## Methods
+* [`isAvailable(...)`](#isavailable)
+* [`verifyIdentity(...)`](#verifyidentity)
+* [`getCredentials(...)`](#getcredentials)
+* [`setCredentials(...)`](#setcredentials)
+* [`deleteCredentials(...)`](#deletecredentials)
+* [Interfaces](#interfaces)
+* [Enums](#enums)
 
-| Method                                                | Default | Type                       | Description                                                                                   |
-| ----------------------------------------------------- | ------- | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `isAvailable(options?: IsAvailableOptions)`           |         | `Promise<AvailableResult>` | Gets available biometrics                                                                     |
-| `verifyIdentity(options?: BiometricOptions)`          |         | `Promise<any>`             | Shows biometric prompt                                                                        |
-| `setCredentials(options: SetCredentialOptions)`       |         | `Promise<any>`             | Securely stores user's credentials in Keychain (iOS) or encypts them using Keystore (Android) |
-| `getCredentials(options: GetCredentialOptions)`       |         | `Promise<Credentials>`     | Retrieves user's credentials if any                                                           |
-| `deleteCredentials(options: DeleteCredentialOptions)` |         | `Promise<any>`             | Removes user's credentials if any                                                             |
+</docgen-index>
 
-## Interfaces
+<docgen-api>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### IsAvailableOptions
+### isAvailable(...)
 
-| Properties     | Default | Type      | Description                                                               |
-| -------------- | ------- | --------- | ------------------------------------------------------------------------- |
-| `useFallback?` |         | `boolean` | Specifies if the device should fallback to using passcode authentication. |
+```typescript
+isAvailable(options?: IsAvailableOptions) => any
+```
 
-### AvailableResult
+Checks if biometric authentication hardware is available.
 
-| Properties     | Default | Type           | Description                                              |
-| -------------- | ------- | -------------- | -------------------------------------------------------- |
-| `isAvailable`  |         | `boolean`      | Specifies if the devices has biometric enrollment        |
-| `biometryType` |         | `BiometryType` | Specifies the available biometric hardware on the device |
-| `errorCode?`   |         | `number`       | Error code returned by the native API                    |
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#isavailableoptions">IsAvailableOptions</a></code> |
 
-### BiometryType - enum
+**Returns:** <code>any</code>
 
-| Properties            | Description                                                                                                                   |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `NONE`                | There is no biometry available                                                                                                |
-| `TOUCH_ID`            | TouchID is available (iOS)                                                                                                    |
-| `FACE_ID`             | FaceID is available (iOS)                                                                                                     |
-| `FINGERPRINT`         | Fingerprint is available (Android)                                                                                            |
-| `FACE_AUTHENTICATION` | Face Authentication is available (Android)                                                                                    |
-| `IRIS_AUTHENTICATION` | Iris Authentication is available (Android)                                                                                    |
-| `MULTIPLE`            | Returned when device has multiple biometric features. Currently there is no way of knowing which one is being used. (Android) |
+**Since:** 1.0.0
 
-### BiometricOptions
+--------------------
 
-| Properties            | Default                        | Type      | Description                                                                                               |
-| --------------------- | ------------------------------ | --------- | --------------------------------------------------------------------------------------------------------- |
-| `reason?`             | "For biometric authentication" | `string`  | Reason for requesting authentication in iOS. Displays in the authentication dialog presented to the user. |
-| `title?`              | "Authenticate"                 | `string`  | Title for the Android prompt                                                                              |
-| `subtitle?`           |                                | `string`  | Subtitle for the Android prompt                                                                           |
-| `description?`        |                                | `string`  | Description for the Android prompt                                                                        |
-| `negativeButtonText?` | "Cancel"                       | `string`  | Text for the negative button displayed on Android                                                         |
-| `maxAttempts?`        | 1                              | `number`  | Limit the number of attempts a user can perform biometric authentication. (Android - Max 5)               |
-| `useFallback?`        | `false`                        | `boolean` | Specifies if the device should fallback to using passcode authentication.(Android - Max 5)                |
 
-### VerifyIdentityErrors
+### verifyIdentity(...)
 
-| code | Description                     |
-| ---- | ------------------------------- |
-| "0"  | Biometrics error or unavailable |
-| "10" | authenticationFailed            |
-| "11" | appCancel                       |
-| "12" | invalidContext                  |
-| "13" | notInteractive                  |
-| "14" | passcodeNotSet                  |
-| "15" | systemCancel                    |
-| "16" | userCancel                      |
-| "17" | userFallback                    |
+```typescript
+verifyIdentity(options?: BiometricOptions) => any
+```
 
-### SetCredentialOptions
+Prompts the user to authenticate with biometrics.
 
-| Properties | Default | Type     | Description                                                                                                                                                             |
-| ---------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `username` |         | `string` | The string used as the alias at the time of loggin in. It doesn't have to be a username. For example if you're using email to log in your users then provide the email. |
-| `password` |         | `string` | The users' password                                                                                                                                                     |
-| `server`   |         | `string` | Any string to identify the credentials object with                                                                                                                      |
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#biometricoptions">BiometricOptions</a></code> |
 
-### GetCredentialOptions
+**Returns:** <code>any</code>
 
-| Properties | Default | Type     | Description                                                                      |
-| ---------- | ------- | -------- | -------------------------------------------------------------------------------- |
-| `server`   |         | `string` | The string used to identify the credentials object when setting the credentials. |
+**Since:** 1.0.0
 
-### DeleteCredentialOptions
+--------------------
 
-| Properties | Default | Type     | Description                                                                      |
-| ---------- | ------- | -------- | -------------------------------------------------------------------------------- |
-| `server`   |         | `string` | The string used to identify the credentials object when setting the credentials. |
 
-### Credentials
+### getCredentials(...)
 
-| Properties | Default | Type     | Description                                                                 |
-| ---------- | ------- | -------- | --------------------------------------------------------------------------- |
-| `username` |         | `string` | The username returned from `getCredentials(options: GetCredentialOptions)`. |
-| `password` |         | `string` | The password returned from `getCredentials(options: GetCredentialOptions)`. |
+```typescript
+getCredentials(options: GetCredentialOptions) => any
+```
 
+Gets the stored credentials for a given server.
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcredentialoptions">GetCredentialOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+**Since:** 1.0.0
+
+--------------------
+
+
+### setCredentials(...)
+
+```typescript
+setCredentials(options: SetCredentialOptions) => any
+```
+
+Stores the given credentials for a given server.
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setcredentialoptions">SetCredentialOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+**Since:** 1.0.0
+
+--------------------
+
+
+### deleteCredentials(...)
+
+```typescript
+deleteCredentials(options: DeleteCredentialOptions) => any
+```
+
+Deletes the stored credentials for a given server.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletecredentialoptions">DeleteCredentialOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+**Since:** 1.0.0
+
+--------------------
+
+
+### Interfaces
+
+
+#### IsAvailableOptions
+
+| Prop              | Type                 | Description                                                                                           |
+| ----------------- | -------------------- | ----------------------------------------------------------------------------------------------------- |
+| **`useFallback`** | <code>boolean</code> | Specifies if should fallback to passcode authentication if biometric authentication is not available. |
+
+
+#### AvailableResult
+
+| Prop               | Type                                                  |
+| ------------------ | ----------------------------------------------------- |
+| **`isAvailable`**  | <code>boolean</code>                                  |
+| **`biometryType`** | <code><a href="#biometrytype">BiometryType</a></code> |
+| **`errorCode`**    | <code>number</code>                                   |
+
+
+#### BiometricOptions
+
+| Prop                     | Type                 | Description                                                                                                           | Default        |
+| ------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **`reason`**             | <code>string</code>  |                                                                                                                       |                |
+| **`title`**              | <code>string</code>  |                                                                                                                       |                |
+| **`subtitle`**           | <code>string</code>  |                                                                                                                       |                |
+| **`description`**        | <code>string</code>  |                                                                                                                       |                |
+| **`negativeButtonText`** | <code>string</code>  |                                                                                                                       |                |
+| **`useFallback`**        | <code>boolean</code> |                                                                                                                       |                |
+| **`maxAttempts`**        | <code>number</code>  | Only for Android. Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5. | <code>1</code> |
+
+
+#### GetCredentialOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`server`** | <code>string</code> |
+
+
+#### Credentials
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`username`** | <code>string</code> |
+| **`password`** | <code>string</code> |
+
+
+#### SetCredentialOptions
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`username`** | <code>string</code> |
+| **`password`** | <code>string</code> |
+| **`server`**   | <code>string</code> |
+
+
+#### DeleteCredentialOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`server`** | <code>string</code> |
+
+
+### Enums
+
+
+#### BiometryType
+
+| Members                   |
+| ------------------------- |
+| **`NONE`**                |
+| **`TOUCH_ID`**            |
+| **`FACE_ID`**             |
+| **`FINGERPRINT`**         |
+| **`FACE_AUTHENTICATION`** |
+| **`IRIS_AUTHENTICATION`** |
+| **`MULTIPLE`**            |
+
+</docgen-api>
 ## Face ID (iOS)
 
 To use FaceID Make sure to provide a value for NSFaceIDUsageDescription, otherwise your app may crash on iOS devices with FaceID.

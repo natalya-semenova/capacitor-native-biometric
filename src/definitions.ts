@@ -56,13 +56,44 @@ export interface DeleteCredentialOptions {
 }
 
 export interface NativeBiometricPlugin {
+  /**
+   * Checks if biometric authentication hardware is available.
+   * @param {IsAvailableOptions} [options]
+   * @returns {Promise<AvailableResult>}
+   * @memberof NativeBiometricPlugin
+   * @since 1.0.0
+   */
   isAvailable(options?: IsAvailableOptions): Promise<AvailableResult>;
-
+  /**
+   * Prompts the user to authenticate with biometrics.
+   * @param {BiometricOptions} [options]
+   * @returns {Promise<any>}
+   * @memberof NativeBiometricPlugin
+   * @since 1.0.0
+   */
   verifyIdentity(options?: BiometricOptions): Promise<any>;
-
+  /**
+   * Gets the stored credentials for a given server.
+   * @param {GetCredentialOptions} options
+   * @returns {Promise<Credentials>}
+   * @memberof NativeBiometricPlugin
+   * @since 1.0.0
+   */
   getCredentials(options: GetCredentialOptions): Promise<Credentials>;
-
+  /**
+   * Stores the given credentials for a given server.
+   * @param {SetCredentialOptions} options
+   * @returns {Promise<any>}
+   * @memberof NativeBiometricPlugin
+   * @since 1.0.0
+   */
   setCredentials(options: SetCredentialOptions): Promise<any>;
-
+  /**
+   * Deletes the stored credentials for a given server.
+   * @param {DeleteCredentialOptions} options
+   * @returns {Promise<any>}
+   * @memberof NativeBiometricPlugin
+   * @since 1.0.0
+   */
   deleteCredentials(options: DeleteCredentialOptions): Promise<any>;
 }
