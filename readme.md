@@ -2,14 +2,14 @@
 
 Use biometrics confirm device owner presence or authenticate users. A couple of methods are provided to handle user credentials. These are securely stored using Keychain (iOS) and Keystore (Android).
 
-## Installation (Only supports Capacitor 3 and 4)
+## Installation (Only supports Capacitor 5)
 
-- `npm i capacitor-native-biometric`
+- `npm i @capgo/capacitor-native-biometric`
 
 ## Usage
 
 ```ts
-import { NativeBiometric } from "capacitor-native-biometric";
+import { NativeBiometric } from "@capgo/capacitor-native-biometric";
 
 async performBiometricVerificatin(){
   const result = await NativeBiometric.isAvailable();
