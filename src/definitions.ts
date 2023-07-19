@@ -1,11 +1,18 @@
 export enum BiometryType {
-  NONE,
-  TOUCH_ID,
-  FACE_ID,
-  FINGERPRINT,
-  FACE_AUTHENTICATION,
-  IRIS_AUTHENTICATION,
-  MULTIPLE,
+  // Android, iOS
+  NONE = 0,
+  // iOS
+  TOUCH_ID = 1,
+  // iOS
+  FACE_ID = 2,
+  // Android
+  FINGERPRINT = 3,
+  // Android
+  FACE_AUTHENTICATION = 4,
+  // Android
+  IRIS_AUTHENTICATION = 5,
+  // Android
+  MULTIPLE = 6,
 }
 
 export interface Credentials {
@@ -32,7 +39,16 @@ export interface BiometricOptions {
   subtitle?: string;
   description?: string;
   negativeButtonText?: string;
+  /**
+   * Specifies if should fallback to passcode authentication if biometric authentication fails.
+   */
   useFallback?: boolean;
+  /**
+   * Only for iOS.
+   * Set the text for the fallback button in the authentication dialog.
+   * If this property is not specified, the default text is set by the system.
+   */
+  fallbackTitle?: string;
   /**
    * Only for Android.
    * Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5.
@@ -55,6 +71,26 @@ export interface DeleteCredentialOptions {
   server: string;
 }
 
+/**
+ * Keep this in sync with BiometricAuthError in README.md
+ * Update whenever `convertToPluginErrorCode` functions are modified
+ */
+export enum BiometricAuthError {
+  UNKNOWN_ERROR = 0,
+  BIOMETRICS_UNAVAILABLE = 1,
+  USER_LOCKOUT = 2,
+  BIOMETRICS_NOT_ENROLLED = 3,
+  USER_TEMPORARY_LOCKOUT = 4,
+  AUTHENTICATION_FAILED = 10,
+  APP_CANCEL = 11,
+  INVALID_CONTEXT = 12,
+  NOT_INTERACTIVE = 13,
+  PASSCODE_NOT_SET = 14,
+  SYSTEM_CANCEL = 15,
+  USER_CANCEL = 16,
+  USER_FALLBACK = 17,
+}
+
 export interface NativeBiometricPlugin {
   /**
    * Checks if biometric authentication hardware is available.
@@ -71,7 +107,7 @@ export interface NativeBiometricPlugin {
    * @memberof NativeBiometricPlugin
    * @since 1.0.0
    */
-  verifyIdentity(options?: BiometricOptions): Promise<any>;
+  verifyIdentity(options?: BiometricOptions): Promise<void>;
   /**
    * Gets the stored credentials for a given server.
    * @param {GetCredentialOptions} options
@@ -87,7 +123,7 @@ export interface NativeBiometricPlugin {
    * @memberof NativeBiometricPlugin
    * @since 1.0.0
    */
-  setCredentials(options: SetCredentialOptions): Promise<any>;
+  setCredentials(options: SetCredentialOptions): Promise<void>;
   /**
    * Deletes the stored credentials for a given server.
    * @param {DeleteCredentialOptions} options
@@ -95,5 +131,5 @@ export interface NativeBiometricPlugin {
    * @memberof NativeBiometricPlugin
    * @since 1.0.0
    */
-  deleteCredentials(options: DeleteCredentialOptions): Promise<any>;
+  deleteCredentials(options: DeleteCredentialOptions): Promise<void>;
 }

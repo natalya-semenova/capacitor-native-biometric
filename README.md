@@ -46,6 +46,27 @@ NativeBiometric.deleteCredentials({
   server: "www.example.com",
 }).then();
 ```
+
+### Biometric Auth Errors
+
+This is a plugin specific list of error codes that can be thrown on verifyIdentity failure, or set as a part of isAvailable. It consolidates Android and iOS specific Authentication Error codes into one combined error list.
+
+| Code | Description                 | Platform                     |
+| ---- | --------------------------- | ---------------------------- |
+| 0    | Unknown Error               | Android, iOS                 |
+| 1    | Biometrics Unavailable      | Android, iOS                 |
+| 2    | User Lockout                | Android, iOS                 |
+| 3    | Biometrics Not Enrolled     | Android, iOS                 |
+| 4    | User Temporary Lockout      | Android (Lockout for 30sec)  |
+| 10   | Authentication Failed       | Android, iOS                 |
+| 11   | App Cancel                  | iOS                          |
+| 12   | Invalid Context             | iOS                          |
+| 13   | Not Interactive             | iOS                          |
+| 14   | Passcode Not Set            | Android, iOS                 |
+| 15   | System Cancel               | Android, iOS                 |
+| 16   | User Cancel                 | Android, iOS                 |
+| 17   | User Fallback               | Android, iOS                 |
+
 <docgen-index>
 
 * [`isAvailable(...)`](#isavailable)
@@ -64,7 +85,7 @@ NativeBiometric.deleteCredentials({
 ### isAvailable(...)
 
 ```typescript
-isAvailable(options?: IsAvailableOptions) => any
+isAvailable(options?: IsAvailableOptions | undefined) => any
 ```
 
 Checks if biometric authentication hardware is available.
@@ -83,7 +104,7 @@ Checks if biometric authentication hardware is available.
 ### verifyIdentity(...)
 
 ```typescript
-verifyIdentity(options?: BiometricOptions) => any
+verifyIdentity(options?: BiometricOptions | undefined) => any
 ```
 
 Prompts the user to authenticate with biometrics.
@@ -177,15 +198,16 @@ Deletes the stored credentials for a given server.
 
 #### BiometricOptions
 
-| Prop                     | Type                 | Description                                                                                                           | Default        |
-| ------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------- |
-| **`reason`**             | <code>string</code>  |                                                                                                                       |                |
-| **`title`**              | <code>string</code>  |                                                                                                                       |                |
-| **`subtitle`**           | <code>string</code>  |                                                                                                                       |                |
-| **`description`**        | <code>string</code>  |                                                                                                                       |                |
-| **`negativeButtonText`** | <code>string</code>  |                                                                                                                       |                |
-| **`useFallback`**        | <code>boolean</code> |                                                                                                                       |                |
-| **`maxAttempts`**        | <code>number</code>  | Only for Android. Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5. | <code>1</code> |
+| Prop                     | Type                 | Description                                                                                                                                                | Default        |
+| ------------------------ | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **`reason`**             | <code>string</code>  |                                                                                                                                                            |                |
+| **`title`**              | <code>string</code>  |                                                                                                                                                            |                |
+| **`subtitle`**           | <code>string</code>  |                                                                                                                                                            |                |
+| **`description`**        | <code>string</code>  |                                                                                                                                                            |                |
+| **`negativeButtonText`** | <code>string</code>  |                                                                                                                                                            |                |
+| **`useFallback`**        | <code>boolean</code> | Specifies if should fallback to passcode authentication if biometric authentication fails.                                                                 |                |
+| **`fallbackTitle`**      | <code>string</code>  | Only for iOS. Set the text for the fallback button in the authentication dialog. If this property is not specified, the default text is set by the system. |                |
+| **`maxAttempts`**        | <code>number</code>  | Only for Android. Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5.                                      | <code>1</code> |
 
 
 #### GetCredentialOptions
@@ -224,15 +246,15 @@ Deletes the stored credentials for a given server.
 
 #### BiometryType
 
-| Members                   |
-| ------------------------- |
-| **`NONE`**                |
-| **`TOUCH_ID`**            |
-| **`FACE_ID`**             |
-| **`FINGERPRINT`**         |
-| **`FACE_AUTHENTICATION`** |
-| **`IRIS_AUTHENTICATION`** |
-| **`MULTIPLE`**            |
+| Members                   | Value          |
+| ------------------------- | -------------- |
+| **`NONE`**                | <code>0</code> |
+| **`TOUCH_ID`**            | <code>1</code> |
+| **`FACE_ID`**             | <code>2</code> |
+| **`FINGERPRINT`**         | <code>3</code> |
+| **`FACE_AUTHENTICATION`** | <code>4</code> |
+| **`IRIS_AUTHENTICATION`** | <code>5</code> |
+| **`MULTIPLE`**            | <code>6</code> |
 
 </docgen-api>
 ## Face ID (iOS)
@@ -278,6 +300,11 @@ public class MainActivity extends BridgeActivity {
 
 [Jonthia](https://github.com/jonthia)
 [One Click Web Studio](https://github.com/oneclickwebstudio)
+[Brian Weasner](https://github.com/brian-weasner)
+[Mohamed Diarra](https://github.com/mohdiarra)
+### Want to Contribute?
+
+Learn about contributing [HERE](./CONTRIBUTING.md)
 
 ## Notes
 
