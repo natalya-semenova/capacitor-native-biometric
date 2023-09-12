@@ -11,7 +11,7 @@ Use biometrics confirm device owner presence or authenticate users. A couple of 
 ```ts
 import { NativeBiometric } from "@capgo/capacitor-native-biometric";
 
-async performBiometricVerificatin(){
+async performBiometricVerification(){
   const result = await NativeBiometric.isAvailable();
 
   if(!result.isAvailable) return;
