@@ -20,7 +20,7 @@
     "docgen": "docgen --api NativeBiometricPlugin --output-readme README.md --output-json dist/docs.json",
     "prepublishOnly": "npm run build"
   },
-  "author": "Jose Martinez",
+  "author": "Martin Donadieu",
   "license": "MIT",
   "devDependencies": {
     "@capacitor/android": "^5.0.0",
