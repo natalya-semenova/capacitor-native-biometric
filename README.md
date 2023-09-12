@@ -9,7 +9,7 @@ Use biometrics confirm device owner presence or authenticate users. A couple of 
 ## Usage
 
 ```ts
-import { NativeBiometric } from "@capgo/capacitor-native-biometric";
+import { NativeBiometric, BiometryType } from "@capgo/capacitor-native-biometric";
 
 async performBiometricVerificatin(){
   const result = await NativeBiometric.isAvailable();
