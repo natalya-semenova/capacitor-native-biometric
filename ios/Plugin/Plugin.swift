@@ -31,6 +31,11 @@ public class NativeBiometric: CAPPlugin {
 
         obj["isAvailable"] = false
         obj["biometryType"] = 0
+        obj["isDeviceSecure"] = false
+
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error){
+            obj["isDeviceSecure"] = true
+        }
 
         let useFallback = call.getBool("useFallback", false)
         let policy = useFallback ? LAPolicy.deviceOwnerAuthentication : LAPolicy.deviceOwnerAuthenticationWithBiometrics
@@ -42,7 +47,7 @@ public class NativeBiometric: CAPPlugin {
             case .faceID:
                 obj["biometryType"] = 2
             default:
-                obj["biomertryType"] = 0
+                obj["biometryType"] = 0
             }
 
             obj["isAvailable"] = true

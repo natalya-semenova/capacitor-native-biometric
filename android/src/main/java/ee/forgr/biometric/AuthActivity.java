@@ -22,25 +22,7 @@ public class AuthActivity extends AppCompatActivity {
   private int maxAttempts;
   private int counter = 0;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_auth_acitivy);
-
-    maxAttempts = getIntent().getIntExtra("maxAttempts", 1);
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      executor = this.getMainExecutor();
-    } else {
-      executor =
-        new Executor() {
-          @Override
-          public void execute(Runnable command) {
-            new Handler().post(command);
-          }
-        };
-    }
-
+  private BiometricPrompt.PromptInfo createPromptInfo() {
     BiometricPrompt.PromptInfo.Builder builder = new BiometricPrompt.PromptInfo.Builder()
       .setTitle(
         getIntent().hasExtra("title")
@@ -73,7 +55,31 @@ public class AuthActivity extends AppCompatActivity {
       );
     }
 
-    BiometricPrompt.PromptInfo promptInfo = builder.build();
+    if(getIntent().hasExtra("disableConfirmationRequired")) {
+        builder.setConfirmationRequired(false);
+    }
+
+    return builder.build();
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_auth_acitivy);
+
+    maxAttempts = getIntent().getIntExtra("maxAttempts", 1);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      executor = this.getMainExecutor();
+    } else {
+      executor =
+        new Executor() {
+          @Override
+          public void execute(Runnable command) {
+            new Handler().post(command);
+          }
+        };
+    }
 
     BiometricPrompt biometricPrompt = new BiometricPrompt(
       this,
@@ -112,7 +118,7 @@ public class AuthActivity extends AppCompatActivity {
       }
     );
 
-    biometricPrompt.authenticate(promptInfo);
+    biometricPrompt.authenticate(createPromptInfo());
   }
 
   void finishActivity(String result) {

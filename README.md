@@ -85,7 +85,7 @@ This is a plugin specific list of error codes that can be thrown on verifyIdenti
 ### isAvailable(...)
 
 ```typescript
-isAvailable(options?: IsAvailableOptions | undefined) => any
+isAvailable(options?: IsAvailableOptions | undefined) => Promise<AvailableResult>
 ```
 
 Checks if biometric authentication hardware is available.
@@ -94,7 +94,7 @@ Checks if biometric authentication hardware is available.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#isavailableoptions">IsAvailableOptions</a></code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#availableresult">AvailableResult</a>&gt;</code>
 
 **Since:** 1.0.0
 
@@ -104,7 +104,7 @@ Checks if biometric authentication hardware is available.
 ### verifyIdentity(...)
 
 ```typescript
-verifyIdentity(options?: BiometricOptions | undefined) => any
+verifyIdentity(options?: BiometricOptions | undefined) => Promise<void>
 ```
 
 Prompts the user to authenticate with biometrics.
@@ -112,8 +112,6 @@ Prompts the user to authenticate with biometrics.
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#biometricoptions">BiometricOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 **Since:** 1.0.0
 
@@ -123,7 +121,7 @@ Prompts the user to authenticate with biometrics.
 ### getCredentials(...)
 
 ```typescript
-getCredentials(options: GetCredentialOptions) => any
+getCredentials(options: GetCredentialOptions) => Promise<Credentials>
 ```
 
 Gets the stored credentials for a given server.
@@ -132,7 +130,7 @@ Gets the stored credentials for a given server.
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getcredentialoptions">GetCredentialOptions</a></code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#credentials">Credentials</a>&gt;</code>
 
 **Since:** 1.0.0
 
@@ -142,7 +140,7 @@ Gets the stored credentials for a given server.
 ### setCredentials(...)
 
 ```typescript
-setCredentials(options: SetCredentialOptions) => any
+setCredentials(options: SetCredentialOptions) => Promise<void>
 ```
 
 Stores the given credentials for a given server.
@@ -150,8 +148,6 @@ Stores the given credentials for a given server.
 | Param         | Type                                                                  |
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setcredentialoptions">SetCredentialOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 **Since:** 1.0.0
 
@@ -161,7 +157,7 @@ Stores the given credentials for a given server.
 ### deleteCredentials(...)
 
 ```typescript
-deleteCredentials(options: DeleteCredentialOptions) => any
+deleteCredentials(options: DeleteCredentialOptions) => Promise<void>
 ```
 
 Deletes the stored credentials for a given server.
@@ -169,8 +165,6 @@ Deletes the stored credentials for a given server.
 | Param         | Type                                                                        |
 | ------------- | --------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletecredentialoptions">DeleteCredentialOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 **Since:** 1.0.0
 
@@ -180,6 +174,16 @@ Deletes the stored credentials for a given server.
 ### Interfaces
 
 
+#### AvailableResult
+
+| Prop                 | Type                                                  |
+| -------------------- | ----------------------------------------------------- |
+| **`isAvailable`**    | <code>boolean</code>                                  |
+| **`biometryType`**   | <code><a href="#biometrytype">BiometryType</a></code> |
+| **`errorCode`**      | <code>number</code>                                   |
+| **`isDeviceSecure`** | <code>boolean</code>                                  |
+
+
 #### IsAvailableOptions
 
 | Prop              | Type                 | Description                                                                                           |
@@ -187,34 +191,19 @@ Deletes the stored credentials for a given server.
 | **`useFallback`** | <code>boolean</code> | Specifies if should fallback to passcode authentication if biometric authentication is not available. |
 
 
-#### AvailableResult
-
-| Prop               | Type                                                  |
-| ------------------ | ----------------------------------------------------- |
-| **`isAvailable`**  | <code>boolean</code>                                  |
-| **`biometryType`** | <code><a href="#biometrytype">BiometryType</a></code> |
-| **`errorCode`**    | <code>number</code>                                   |
-
-
 #### BiometricOptions
 
-| Prop                     | Type                 | Description                                                                                                                                                | Default        |
-| ------------------------ | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| **`reason`**             | <code>string</code>  |                                                                                                                                                            |                |
-| **`title`**              | <code>string</code>  |                                                                                                                                                            |                |
-| **`subtitle`**           | <code>string</code>  |                                                                                                                                                            |                |
-| **`description`**        | <code>string</code>  |                                                                                                                                                            |                |
-| **`negativeButtonText`** | <code>string</code>  |                                                                                                                                                            |                |
-| **`useFallback`**        | <code>boolean</code> | Specifies if should fallback to passcode authentication if biometric authentication fails.                                                                 |                |
-| **`fallbackTitle`**      | <code>string</code>  | Only for iOS. Set the text for the fallback button in the authentication dialog. If this property is not specified, the default text is set by the system. |                |
-| **`maxAttempts`**        | <code>number</code>  | Only for Android. Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5.                                      | <code>1</code> |
-
-
-#### GetCredentialOptions
-
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`server`** | <code>string</code> |
+| Prop                              | Type                 | Description                                                                                                                                                | Default        |
+| --------------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **`reason`**                      | <code>string</code>  |                                                                                                                                                            |                |
+| **`title`**                       | <code>string</code>  |                                                                                                                                                            |                |
+| **`subtitle`**                    | <code>string</code>  |                                                                                                                                                            |                |
+| **`description`**                 | <code>string</code>  |                                                                                                                                                            |                |
+| **`negativeButtonText`**          | <code>string</code>  |                                                                                                                                                            |                |
+| **`useFallback`**                 | <code>boolean</code> | Specifies if should fallback to passcode authentication if biometric authentication fails.                                                                 |                |
+| **`fallbackTitle`**               | <code>string</code>  | Only for iOS. Set the text for the fallback button in the authentication dialog. If this property is not specified, the default text is set by the system. |                |
+| **`maxAttempts`**                 | <code>number</code>  | Only for Android. Set a maximum number of attempts for biometric authentication. The maximum allowed by android is 5.                                      | <code>1</code> |
+| **`disableConfirmationRequired`** | <code>boolean</code> | Only for Android.                                                                                                                                          |                |
 
 
 #### Credentials
@@ -223,6 +212,13 @@ Deletes the stored credentials for a given server.
 | -------------- | ------------------- |
 | **`username`** | <code>string</code> |
 | **`password`** | <code>string</code> |
+
+
+#### GetCredentialOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`server`** | <code>string</code> |
 
 
 #### SetCredentialOptions

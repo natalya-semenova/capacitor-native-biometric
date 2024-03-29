@@ -109,6 +109,20 @@ public class NativeBiometric extends Plugin {
     return type;
   }
 
+  private boolean checkDeviceSecure() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      KeyguardManager keyguardManager = (KeyguardManager) getActivity().getSystemService(Context.KEYGUARD_SERVICE);
+
+      if (! keyguardManager.isDeviceSecure()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   @PluginMethod
   public void isAvailable(PluginCall call) {
     JSObject ret = new JSObject();
@@ -143,6 +157,7 @@ public class NativeBiometric extends Plugin {
     }
 
     ret.put("biometryType", getAvailableFeature());
+    ret.put("isDeviceSecure", checkDeviceSecure());
     call.resolve(ret);
   }
 
@@ -158,6 +173,10 @@ public class NativeBiometric extends Plugin {
 
     if (call.hasOption("description")) {
       intent.putExtra("description", call.getString("description"));
+    }
+
+    if (call.hasOption("disableConfirmationRequired")) {
+      intent.putExtra("disableConfirmationRequired", call.getString("disableConfirmationRequired"));  
     }
 
     if (call.hasOption("negativeButtonText")) {
